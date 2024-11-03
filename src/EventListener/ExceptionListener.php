@@ -20,7 +20,7 @@ class ExceptionListener
     {
         $exception = $event->getThrowable();
         
-        $this->logger->error('An error occurred: ' . $exception->getMessage());
+        $this->logger->error('Error: ' . $exception->getMessage());
 
         $response = new JsonResponse([
             'error' => $exception->getMessage(),
