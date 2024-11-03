@@ -27,9 +27,7 @@ class UserController extends AbstractController
     #[Route(methods: 'GET', name: 'show')]
     public function show(ShowRequest $request): JsonResponse
     {
-        if (! $this->isGranted('user_show', $request->id)) {
-            return $this->response(['error' => 'Forbidden'], JsonResponse::HTTP_FORBIDDEN);
-        }
+        $this->denyAccessUnlessGranted('user_show', $request->id);
 
         $user = $this->userRepository->find($request->id);
 
@@ -48,9 +46,7 @@ class UserController extends AbstractController
     #[Route(methods: 'POST', name: 'store')]
     public function store(StoreRequest $request): JsonResponse
     {
-        if (! $this->isGranted('user_store')) {
-            return $this->response(['error' => 'Forbidden'], JsonResponse::HTTP_FORBIDDEN);
-        }
+        $this->denyAccessUnlessGranted('user_store');
         
         $user = new User;
         $user->setLogin($request->login);
@@ -72,9 +68,7 @@ class UserController extends AbstractController
     #[Route(methods: 'PUT', name: 'update')]
     public function update(UpdateRequest $request): JsonResponse
     {
-        if (! $this->isGranted('user_update', $request->id)) {
-            return $this->response(['error' => 'Forbidden'], JsonResponse::HTTP_FORBIDDEN);
-        }
+        $this->denyAccessUnlessGranted('user_update', $request->id);
 
         $user = $this->userRepository->find($request->id);
 
@@ -94,9 +88,7 @@ class UserController extends AbstractController
     #[Route(methods: 'DELETE', name: 'delete')]
     public function delete(DeleteRequest $request): JsonResponse
     {
-        if (! $this->isGranted('user_delete', $request->id)) {
-            return $this->response(['error' => 'Forbidden'], JsonResponse::HTTP_FORBIDDEN);
-        }
+        $this->denyAccessUnlessGranted('user_delete', $request->id);
 
         $user = $this->userRepository->find($request->id);
 
