@@ -25,7 +25,7 @@ class AuthController extends AbstractController
         );
 
         if ($user === null) {
-            return new JsonResponse(['error' => 'Invalid credentials.'], 401);
+            return new JsonResponse(['error' => 'Invalid credentials.'], JsonResponse::HTTP_UNAUTHORIZED);
         }
 
         $token = $jwtManager->createFromPayload($user, [

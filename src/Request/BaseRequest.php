@@ -27,7 +27,7 @@ abstract class BaseRequest
         }
     
         if (count($errors) > 0) {
-            $response = new JsonResponse(['errors' => $errors], 422);
+            $response = new JsonResponse(['errors' => $errors], JsonResponse::HTTP_UNPROCESSABLE_ENTITY);
             $response->send();
             die;
         }

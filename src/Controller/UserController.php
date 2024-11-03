@@ -28,13 +28,13 @@ class UserController extends AbstractController
     public function show(ShowRequest $request): JsonResponse
     {
         if (! $this->isGranted('user_show', $request->id)) {
-            return $this->response(['error' => 'Forbidden'], 403);
+            return $this->response(['error' => 'Forbidden'], JsonResponse::HTTP_FORBIDDEN);
         }
 
         $user = $this->userRepository->find($request->id);
 
         if ($user === null) {
-            return $this->response(['error' => 'Not found.'], 404);
+            return $this->response(['error' => 'Not found.'], JsonResponse::HTTP_NOT_FOUND);
         }
 
         $data = [];
@@ -49,7 +49,7 @@ class UserController extends AbstractController
     public function store(StoreRequest $request): JsonResponse
     {
         if (! $this->isGranted('user_store')) {
-            return $this->response(['error' => 'Forbidden'], 403);
+            return $this->response(['error' => 'Forbidden'], JsonResponse::HTTP_FORBIDDEN);
         }
         
         $user = new User;
@@ -73,13 +73,13 @@ class UserController extends AbstractController
     public function update(UpdateRequest $request): JsonResponse
     {
         if (! $this->isGranted('user_update', $request->id)) {
-            return $this->response(['error' => 'Forbidden'], 403);
+            return $this->response(['error' => 'Forbidden'], JsonResponse::HTTP_FORBIDDEN);
         }
 
         $user = $this->userRepository->find($request->id);
 
         if ($user === null) {
-            return $this->response(['error' => 'Not found.'], 404);
+            return $this->response(['error' => 'Not found.'], JsonResponse::HTTP_NOT_FOUND);
         }
 
         $user->setLogin($request->login);
@@ -95,13 +95,13 @@ class UserController extends AbstractController
     public function delete(DeleteRequest $request): JsonResponse
     {
         if (! $this->isGranted('user_delete', $request->id)) {
-            return $this->response(['error' => 'Forbidden'], 403);
+            return $this->response(['error' => 'Forbidden'], JsonResponse::HTTP_FORBIDDEN);
         }
 
         $user = $this->userRepository->find($request->id);
 
         if ($user === null) {
-            return $this->response(['error' => 'Not found.'], 404);
+            return $this->response(['error' => 'Not found.'], JsonResponse::HTTP_NOT_FOUND);
         }
 
         $this->entityManager->remove($user);
@@ -110,7 +110,7 @@ class UserController extends AbstractController
         return $this->response();
     }
 
-    public function response(?array $data = null, int $status = 200): JsonResponse
+    public function response(?array $data = null, int $status = JsonResponse::HTTP_OK): JsonResponse
     {
         return new JsonResponse($data, $status);
     }
